@@ -19,8 +19,8 @@ const Compatible_With_Bettbox = { ruleOptionsEnable: true };
 const ruleOptionsEnable = {
   // 基础策略组
   手动选择: true, // 是否启用手动选择策略组
-  自动选择: true, // 是否启用自动选择策略组
-  负载均衡: true, // 是否启用负载均衡策略组
+  自动选择: false, // 是否启用自动选择策略组
+  负载均衡: false, // 是否启用负载均衡策略组
 
   // 以下为分流策略配置
   FCM: true, // GoogleFCM服务
@@ -29,21 +29,21 @@ const ruleOptionsEnable = {
   AI: true, // 国外AI服务
   GitHub: true, // GitHub服务
   Microsoft: true, // Microsoft服务
-  Apple: true, // Apple服务
+  Apple: false, // Apple服务
   Telegram: true, // Telegram通讯软件
   Steam: true, // Steam游戏平台
   TikTok: true, // TikTok视频平台
   Twitter: true, // Twitter社交平台
   Meta: true, // Meta服务
   Line: true, // Line通讯软件
-  Netflix: true, // Netflix视频平台
+  Netflix: false, // Netflix视频平台
   Emby: true, // Emby媒体服务
   PikPak: true, // PikPak网盘服务
-  Spotify: true, // Spotify音乐服务
+  Spotify: false, // Spotify音乐服务
   Crypto: true, // 加密货币相关服务
   PayPal: true, // PayPal支付服务
-  Patreon: true, // Patreon创作者赞助平台
-  EHentai: true, // E-Hentai网站
+  Patreon: false, // Patreon创作者赞助平台
+  EHentai: false, // E-Hentai网站
   AdBlock: true, // 广告拦截
 
   // 以下为非分流策略配置
@@ -57,8 +57,8 @@ const ruleOptionsEnable = {
   过滤非地区节点: true, // 是否过滤非地区节点
   屏蔽国外QUIC: true, // 是否屏蔽国外QUIC流量
   代理IPV4优先: false, // 是否将订阅节点统一为 IPv4 优先（与“代理IPV6优先”同时开启时不生效）
-  代理IPV6优先: false, // 是否将订阅节点统一为 IPv6 优先（与“代理IPV4优先”同时开启时不生效）
-  链式代理: false, // 是否启用链式代理（自定义节点作为落地节点，经“链式中转”策略组中转）
+  代理IPV6优先: true, // 是否将订阅节点统一为 IPv6 优先（与“代理IPV4优先”同时开启时不生效）
+  链式代理: true, // 是否启用链式代理（自定义节点作为落地节点，经“链式中转”策略组中转）
 };
 
 // 定义前置规则
