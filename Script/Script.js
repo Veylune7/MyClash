@@ -19,7 +19,7 @@ const Compatible_With_Bettbox = { ruleOptionsEnable: true };
 const ruleOptionsEnable = {
   // 基础策略组
   手动选择: true, // 是否启用手动选择策略组
-  自动选择: true, // 是否启用自动选择策略组
+  自动选择: false, // 是否启用自动选择策略组
 
   // 以下为分流策略配置
   Google: true, // Google服务
@@ -40,8 +40,8 @@ const ruleOptionsEnable = {
   过滤非地区节点: true, // 是否过滤非地区节点
   屏蔽国外QUIC: true, // 是否屏蔽国外QUIC流量
   代理IPV4优先: false, // 是否将订阅节点统一为 IPv4 优先（与“代理IPV6优先”同时开启时不生效）
-  代理IPV6优先: false, // 是否将订阅节点统一为 IPv6 优先（与“代理IPV4优先”同时开启时不生效）
-  链式代理: false, // 是否启用链式代理（自定义节点作为落地节点，经“链式中转”策略组中转）
+  代理IPV6优先: true, // 是否将订阅节点统一为 IPv6 优先（与“代理IPV4优先”同时开启时不生效）
+  链式代理: true, // 是否启用链式代理（自定义节点作为落地节点，经“链式中转”策略组中转）
 };
 
 // 定义前置规则
