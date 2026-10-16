@@ -13,13 +13,13 @@ Mihomo（Clash Meta）分流配置，开箱即用。
 **全量版**（完整分组：AI / 流媒体 / 游戏 / 电报 / 苹果 / 微软 / 谷歌等）
 
 ```
-https://raw.githubusercontent.com/wjj-bit-kriz/MyClash/main/Config/mihomoConfig.yaml
+https://raw.githubusercontent.com/Veylune7/MyClash/main/Config/mihomoConfig.yaml
 ```
 
 **精简版**（保留常用分组，体积更小，低内存设备友好）
 
 ```
-https://raw.githubusercontent.com/wjj-bit-kriz/MyClash/main/Config/mihomoConfigLite.yaml
+https://raw.githubusercontent.com/Veylune7/MyClash/main/Config/mihomoConfigLite.yaml
 ```
 
 > ⚠️ 导入后**必须**在配置里填入自己的机场订阅链接：
@@ -52,13 +52,13 @@ AI 分组默认走「美国」节点（可在策略组里手动切换）。
 **精简版脚本**
 
 ```
-https://raw.githubusercontent.com/wjj-bit-kriz/MyClash/main/Script/Script.js
+https://raw.githubusercontent.com/Veylune7/MyClash/main/Script/Script.js
 ```
 
 **完整版脚本**
 
 ```
-https://raw.githubusercontent.com/wjj-bit-kriz/MyClash/main/Script/mihomoScript.js
+https://raw.githubusercontent.com/Veylune7/MyClash/main/Script/mihomoScript.js
 ```
 
 用法（Bettbox）：订阅卡片 → 覆写 → 脚本，填入上面对应链接。之后在覆写设置里会出现各服务的可视化开关（AI、GitHub、Google、Telegram 等），关掉某个开关后该分组消失、对应流量回落到默认代理。
