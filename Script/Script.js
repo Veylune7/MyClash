@@ -884,166 +884,6 @@ function buildFunctionalGroups(filteredProxies, generatedRegionGroups, customize
 
 // ---dns和hosts相关处理---
 
-// 常见的公共 DNS，用于过滤订阅中的公共 DNS
-const commonDnsList = [
-  // ==================== 国内 ====================
-
-  // 阿里 AliDNS（阿里云）
-  '223.5.5.5',
-  '223.6.6.6',
-  '2400:3200::1',
-  '2400:3200:baba::1',
-  'alidns',
-
-  // 腾讯 DNSPod（腾讯云）
-  '119.29.29.29',
-  '182.254.116.116',
-  '1.12.12.12',
-  '120.53.53.53',
-  '2402:4e00::',
-  'doh.pub',
-  'dot.pub',
-  'dns.pub',
-  'dnspod',
-
-  // 114DNS（南京信风）
-  '114.114.114.114',
-  '114.114.115.115',
-
-  // 百度 BaiduDNS
-  '180.76.76.76',
-  '2400:da00::6666',
-  'dns.baidu',
-
-  // CNNIC SDNS（中国互联网络信息中心）
-  '1.2.4.8',
-  '210.2.4.8',
-  '2001:dc7:1000::1',
-  'cnnic',
-
-  // 360 安全 DNS
-  '101.226.4.6',
-  '218.30.118.6',
-  '123.125.81.6',
-  '2400:8800:1::6',
-  '2400:8800:2::6',
-  'doh.360',
-  'dot.360',
-
-  // 火山引擎（字节跳动）
-  '180.184.1.1',
-  '180.184.2.2',
-
-  // ==================== 国外 ====================
-
-  // Cloudflare
-  '1.1.1.1',
-  '1.0.0.1',
-  '1.1.1.2',
-  '1.0.0.2',
-  '1.1.1.3',
-  '1.0.0.3',
-  '2606:4700:4700::1111',
-  '2606:4700:4700::1001',
-  '2606:4700:4700::1112',
-  '2606:4700:4700::1002',
-  '2606:4700:4700::1113',
-  '2606:4700:4700::1003',
-  'dns.cloudflare',
-  'cloudflare-dns',
-  'one.one.one.one',
-
-  // Google Public DNS
-  '8.8.8.8',
-  '8.8.4.4',
-  '2001:4860:4860::8888',
-  '2001:4860:4860::8844',
-  'dns.google',
-
-  // Quad9
-  '9.9.9.9',
-  '9.9.9.10',
-  '9.9.9.11',
-  '149.112.112.112',
-  '149.112.112.10',
-  '149.112.112.11',
-  '2620:fe::fe',
-  '2620:fe::9',
-  'quad9',
-
-  // Cisco OpenDNS（含 FamilyShield）
-  '208.67.222.222',
-  '208.67.220.220',
-  '208.67.222.123',
-  '208.67.220.123',
-  '2620:119:35::35',
-  '2620:119:53::53',
-  '2620:119:35::123',
-  '2620:119:53::123',
-  'opendns',
-
-  // AdGuard DNS（含家庭版）
-  '94.140.14.14',
-  '94.140.15.15',
-  '94.140.14.15',
-  '94.140.15.16',
-  '2a10:50c0::ad1:ff',
-  '2a10:50c0::ad2:ff',
-  '2a10:50c0::bad1:ff',
-  '2a10:50c0::bad2:ff',
-  'adguard',
-
-  // Control D
-  '76.76.2.0',
-  '76.76.10.0',
-  '76.76.19.19',
-  '76.223.122.150',
-  '2a0d:2a00:1::2',
-  '2a0d:2a00:2::2',
-
-  // CleanBrowsing（含安全/家庭版）
-  '185.228.168.9',
-  '185.228.169.9',
-  '185.228.168.10',
-  '185.228.169.11',
-  '185.228.168.168',
-  '185.228.169.168',
-
-  // Yandex DNS
-  '77.88.8.8',
-  '77.88.8.1',
-  '2a02:6b8::feed:0ff',
-  '2a02:6b8:0:1::feed:0ff',
-
-  // Neustar UltraDNS
-  '156.154.70.1',
-  '156.154.71.1',
-  '156.154.70.2',
-  '156.154.71.2',
-  '2610:a1:1018::1',
-  '2610:a1:1019::1',
-
-  // Mullvad DNS
-  '194.242.2.2',
-  '2a07:e340::2',
-
-  // Hurricane Electric
-  '74.82.42.42',
-  '2001:470:20::2',
-
-  // NextDNS
-  'nextdns',
-
-  // Apple
-  'dns.apple',
-];
-
-// 预编译公共 DNS 正则
-const commonDnsRegex = new RegExp(
-  commonDnsList.map((dns) => dns.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'),
-  'i',
-);
-
 // 国内外 DNS 定义
 const chinaDNS = ['223.5.5.5#DIRECT', '119.29.29.29#DIRECT'];
 const foreignDNS = ['https://cloudflare-dns.com/dns-query#默认代理', 'https://dns.google/dns-query#默认代理'];
@@ -1223,7 +1063,7 @@ function simplifyDomainPolicy(policy) {
 }
 
 /**
- * 构建 DNS 与 hosts：保留私有 DNS、节点域名 policy/fake-ip-filter，并按 hosts 改写节点 server
+ * 构建 DNS 与 hosts：保留节点域名 policy/fake-ip-filter，并按 hosts 改写节点 server
  * hosts改写条件（满足任意一个条件即可）：
  * 1. proxy-server-nameserver 有且仅有一个 DNS 并且该 DNS 包含非空的 listen 值
  * 2. proxy-server-nameserver 有且仅有一个 DNS 并且该 DNS 包含 127.0.0.1 并且 listen 包含 0.0.0.0
@@ -1251,23 +1091,6 @@ function buildDnsAndHostsConfig(config, filteredProxies) {
       .filter((server) => !isIpAddress(server)),
   );
 
-  const privateProxyServerNameservers = shouldRewriteByHosts ? [] : proxyServerNameservers;
-
-  const isCommonDns = (dns) => {
-    const value = String(dns).trim().toLowerCase();
-    if (value === 'system' || value === 'system://') return true;
-
-    return commonDnsRegex.test(value);
-  };
-
-  const privateDNS = [
-    ...new Set(
-      [...(originalDnsConfig['nameserver'] || []), ...privateProxyServerNameservers]
-        .map(stripDnsSuffix)
-        .filter((dns) => dns.length > 0 && !isCommonDns(dns)),
-    ),
-  ];
-
   const matchedProxyPolicy = {};
   for (const [domain, dns] of Object.entries({
     ...originalDnsConfig['nameserver-policy'],
@@ -1281,18 +1104,13 @@ function buildDnsAndHostsConfig(config, filteredProxies) {
     matchedProxyPolicy[domain] = stripedDns;
   }
 
-  if (privateDNS.length > 0 && Object.keys(matchedProxyPolicy).length === 0) {
-    for (const domain of proxyDomains) {
-      matchedProxyPolicy[domain] = privateDNS;
-    }
-  }
-
-
-  // 山海机场私有 DNS：仅用于山海节点域名（sh-cloudflare.sbs），不影响其他机场
+  // 多机场场景：私有 DNS 必须按机场节点域名隔离，不能把某个机场的 DNS 全局套用到其他机场
   // 注意：dns01 是海外机器，不用；只用 dns02、dns03（国内）
-  const shanhaiDNS = ['https://dns02.shanhai.you:16666/dns-query', 'https://dns03.shanhai.you:16666/dns-query'];
+  const shanhaiDNS = ['https://dns02.shanhai.you:16666/dns-query#DIRECT', 'https://dns03.shanhai.you:16666/dns-query#DIRECT'];
+  const shanhaiDomainSuffixes = ['.dw.sh-cloudflare.sbs'];
+  const shanhaiExactDomains = new Set(['cf.cdn.sh-cloudflare.sbs']);
   for (const domain of proxyDomains) {
-    if (domain === 'sh-cloudflare.sbs' || domain.endsWith('.sh-cloudflare.sbs')) {
+    if (shanhaiExactDomains.has(domain) || shanhaiDomainSuffixes.some((suffix) => domain.endsWith(suffix))) {
       matchedProxyPolicy[domain] = shanhaiDNS;
     }
   }
