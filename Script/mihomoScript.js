@@ -183,7 +183,7 @@ const regionDefinitions = [
     name: '韩国',
     flag: '🇰🇷',
     regex: /🇰🇷|韩国|首尔|釜山|仁川|(?<![A-Za-z])(?:KR|KOR)(?![A-Za-z])|korea|seoul/i,
-    icon: 'https://fastly.jsdelivr.net/gh/Veylune7/MyClash@daeaf88f089fb40a2c7918462ba3ba0b78e220b9/Icons/svg/Korea.svg',
+    icon: 'https://fastly.jsdelivr.net/gh/Veylune7/MyClash@2574e1d788f00d18fffeeb5bbfaf59b50722da78/Icons/svg/Korea.svg',
   },
 ];
 
