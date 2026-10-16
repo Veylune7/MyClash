@@ -685,7 +685,7 @@ proxy-groups:
     <<: [*group_common_select, *KR_filter]
     include-all: true
     proxies: ['韩国-自动选择']
-    icon: 'https://fastly.jsdelivr.net/gh/Veylune7/MyClash@main/Icons/svg/Korea.svg'
+    icon: 'https://fastly.jsdelivr.net/gh/Veylune7/MyClash@daeaf88f089fb40a2c7918462ba3ba0b78e220b9/Icons/svg/Korea.svg'
   - name: '韩国-自动选择'
     <<: [*group_common_auto, *KR_filter]
 
