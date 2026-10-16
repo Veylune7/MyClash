@@ -165,7 +165,7 @@ const regionDefinitions = [
     name: '韩国',
     flag: '🇰🇷',
     regex: /🇰🇷|韩国|首尔|釜山|仁川|(?<![A-Za-z])(?:KR|KOR)(?![A-Za-z])|korea|seoul/i,
-    icon: `${iconBaseUrl}Global.svg`,
+    icon: 'https://fastly.jsdelivr.net/gh/Veylune7/MyClash@main/Icons/svg/Korea.svg',
   },
 ];
 
