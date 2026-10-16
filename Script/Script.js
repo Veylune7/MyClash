@@ -155,6 +155,12 @@ const regionDefinitions = [
     regex: /🇸🇬|新加坡|狮城|(?<![A-Za-z])SGP?(?![A-Za-z])|singapore/i,
     icon: `${iconBaseUrl}Singapore.svg`,
   },
+  {
+    name: '韩国',
+    flag: '🇰🇷',
+    regex: /🇰🇷|韩国|首尔|釜山|仁川|(?<![A-Za-z])(?:KR|KOR)(?![A-Za-z])|korea|seoul/i,
+    icon: `${iconBaseUrl}Global.svg`,
+  },
 ];
 
 // 定义倍率策略组
