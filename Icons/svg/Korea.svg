@@ -1,41 +1,42 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
   <title>South Korea</title>
-  <!-- White background with rounded corners, matching other region icons -->
-  <rect x="14" y="14" width="996" height="996" rx="120" fill="#FFFFFF"/>
-  <!-- Taegeuk: red top / blue bottom with S-curve -->
+  <!-- Flag rectangle, same wide proportions as other region icons (Japan/Taiwan/Singapore) -->
+  <!-- White flag with light gray border so it stands out on white UI -->
+  <rect x="15" y="157" width="994" height="710" rx="60" fill="#FFFFFF" stroke="#D9D9D9" stroke-width="3"/>
+  <!-- Taegeuk: red top / blue bottom with S-curve, centered on flag -->
   <g>
-    <path d="M512 312 a200 200 0 0 1 0 400 a100 100 0 0 1 0 -200 a100 100 0 0 0 0 -200" fill="#CD2E3A"/>
-    <path d="M512 712 a200 200 0 0 1 0 -400 a100 100 0 0 1 0 200 a100 100 0 0 0 0 200" fill="#0047A0"/>
+    <path d="M512 332 a180 180 0 0 1 0 360 a90 90 0 0 1 0 -180 a90 90 0 0 0 0 -180" fill="#CD2E3A"/>
+    <path d="M512 692 a180 180 0 0 1 0 -360 a90 90 0 0 1 0 180 a90 90 0 0 0 0 180" fill="#0047A0"/>
   </g>
-  <!-- Trigrams: black bars, 3 per corner, rotated to face center -->
+  <!-- Trigrams: black bars, placed at flag corners, rotated to face center -->
   <!-- Top-left: Geon (3 solid) -->
-  <g transform="translate(310 310) rotate(45)">
-    <rect x="-45" y="-58" width="90" height="20" fill="#000000"/>
-    <rect x="-45" y="-10" width="90" height="20" fill="#000000"/>
-    <rect x="-45" y="38" width="90" height="20" fill="#000000"/>
+  <g transform="translate(150 280) rotate(45)">
+    <rect x="-55" y="-58" width="110" height="22" fill="#000000"/>
+    <rect x="-55" y="-11" width="110" height="22" fill="#000000"/>
+    <rect x="-55" y="36" width="110" height="22" fill="#000000"/>
   </g>
   <!-- Top-right: Ri (broken, solid, broken) -->
-  <g transform="translate(714 310) rotate(-45)">
-    <rect x="-45" y="-58" width="40" height="20" fill="#000000"/>
-    <rect x="5" y="-58" width="40" height="20" fill="#000000"/>
-    <rect x="-45" y="-10" width="90" height="20" fill="#000000"/>
-    <rect x="-45" y="38" width="40" height="20" fill="#000000"/>
-    <rect x="5" y="38" width="40" height="20" fill="#000000"/>
+  <g transform="translate(874 280) rotate(-45)">
+    <rect x="-55" y="-58" width="50" height="22" fill="#000000"/>
+    <rect x="5" y="-58" width="50" height="22" fill="#000000"/>
+    <rect x="-55" y="-11" width="110" height="22" fill="#000000"/>
+    <rect x="-55" y="36" width="50" height="22" fill="#000000"/>
+    <rect x="5" y="36" width="50" height="22" fill="#000000"/>
   </g>
   <!-- Bottom-left: Gam (solid, broken, solid) -->
-  <g transform="translate(310 714) rotate(-45)">
-    <rect x="-45" y="-58" width="90" height="20" fill="#000000"/>
-    <rect x="-45" y="-10" width="40" height="20" fill="#000000"/>
-    <rect x="5" y="-10" width="40" height="20" fill="#000000"/>
-    <rect x="-45" y="38" width="90" height="20" fill="#000000"/>
+  <g transform="translate(150 744) rotate(-45)">
+    <rect x="-55" y="-58" width="110" height="22" fill="#000000"/>
+    <rect x="-55" y="-11" width="50" height="22" fill="#000000"/>
+    <rect x="5" y="-11" width="50" height="22" fill="#000000"/>
+    <rect x="-55" y="36" width="110" height="22" fill="#000000"/>
   </g>
   <!-- Bottom-right: Gon (3 broken) -->
-  <g transform="translate(714 714) rotate(45)">
-    <rect x="-45" y="-58" width="40" height="20" fill="#000000"/>
-    <rect x="5" y="-58" width="40" height="20" fill="#000000"/>
-    <rect x="-45" y="-10" width="40" height="20" fill="#000000"/>
-    <rect x="5" y="-10" width="40" height="20" fill="#000000"/>
-    <rect x="-45" y="38" width="40" height="20" fill="#000000"/>
-    <rect x="5" y="38" width="40" height="20" fill="#000000"/>
+  <g transform="translate(874 744) rotate(45)">
+    <rect x="-55" y="-58" width="50" height="22" fill="#000000"/>
+    <rect x="5" y="-58" width="50" height="22" fill="#000000"/>
+    <rect x="-55" y="-11" width="50" height="22" fill="#000000"/>
+    <rect x="5" y="-11" width="50" height="22" fill="#000000"/>
+    <rect x="-55" y="36" width="50" height="22" fill="#000000"/>
+    <rect x="5" y="36" width="50" height="22" fill="#000000"/>
   </g>
 </svg>
