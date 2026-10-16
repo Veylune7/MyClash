@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <title>South Korea</title>
+  <!-- White background with rounded corners, matching other region icons -->
+  <rect x="14" y="14" width="996" height="996" rx="120" fill="#FFFFFF"/>
+  <!-- Taegeuk: red top / blue bottom with S-curve -->
+  <g>
+    <path d="M512 312 a200 200 0 0 1 0 400 a100 100 0 0 1 0 -200 a100 100 0 0 0 0 -200" fill="#CD2E3A"/>
+    <path d="M512 712 a200 200 0 0 1 0 -400 a100 100 0 0 1 0 200 a100 100 0 0 0 0 200" fill="#0047A0"/>
+  </g>
+  <!-- Trigrams: black bars, 3 per corner, rotated to face center -->
+  <!-- Top-left: Geon (3 solid) -->
+  <g transform="translate(310 310) rotate(45)">
+    <rect x="-45" y="-58" width="90" height="20" fill="#000000"/>
+    <rect x="-45" y="-10" width="90" height="20" fill="#000000"/>
+    <rect x="-45" y="38" width="90" height="20" fill="#000000"/>
+  </g>
+  <!-- Top-right: Ri (broken, solid, broken) -->
+  <g transform="translate(714 310) rotate(-45)">
+    <rect x="-45" y="-58" width="40" height="20" fill="#000000"/>
+    <rect x="5" y="-58" width="40" height="20" fill="#000000"/>
+    <rect x="-45" y="-10" width="90" height="20" fill="#000000"/>
+    <rect x="-45" y="38" width="40" height="20" fill="#000000"/>
+    <rect x="5" y="38" width="40" height="20" fill="#000000"/>
+  </g>
+  <!-- Bottom-left: Gam (solid, broken, solid) -->
+  <g transform="translate(310 714) rotate(-45)">
+    <rect x="-45" y="-58" width="90" height="20" fill="#000000"/>
+    <rect x="-45" y="-10" width="40" height="20" fill="#000000"/>
+    <rect x="5" y="-10" width="40" height="20" fill="#000000"/>
+    <rect x="-45" y="38" width="90" height="20" fill="#000000"/>
+  </g>
+  <!-- Bottom-right: Gon (3 broken) -->
+  <g transform="translate(714 714) rotate(45)">
+    <rect x="-45" y="-58" width="40" height="20" fill="#000000"/>
+    <rect x="5" y="-58" width="40" height="20" fill="#000000"/>
+    <rect x="-45" y="-10" width="40" height="20" fill="#000000"/>
+    <rect x="5" y="-10" width="40" height="20" fill="#000000"/>
+    <rect x="-45" y="38" width="40" height="20" fill="#000000"/>
+    <rect x="5" y="38" width="40" height="20" fill="#000000"/>
+  </g>
+</svg>
