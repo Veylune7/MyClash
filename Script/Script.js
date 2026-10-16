@@ -1292,7 +1292,7 @@ function buildDnsAndHostsConfig(config, filteredProxies) {
   // 注意：dns01 是海外机器，不用；只用 dns02、dns03（国内）
   const shanhaiDNS = ['https://dns02.shanhai.you:16666/dns-query', 'https://dns03.shanhai.you:16666/dns-query'];
   for (const domain of proxyDomains) {
-    if (domain.endsWith('sh-cloudflare.sbs')) {
+    if (domain === 'sh-cloudflare.sbs' || domain.endsWith('.sh-cloudflare.sbs')) {
       matchedProxyPolicy[domain] = shanhaiDNS;
     }
   }
@@ -1411,7 +1411,7 @@ function main(config) {
 
   newConfig['tun'] = {
     enable: true,
-    stack: 'mips',
+    stack: 'mixed',
     'auto-route': true,
     'strict-route': true,
     'auto-redirect': true,
