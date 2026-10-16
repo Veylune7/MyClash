@@ -1,8 +1,8 @@
 /**
  * mihomo配置覆写脚本（精简版）
  * 作者：AIsouler
- * 源仓库：https://github.com/wjj-bit-kriz/MyClash（基于 AIsouler/MyClash 二次修改）
- * 脚本链接：https://raw.githubusercontent.com/wjj-bit-kriz/MyClash/main/Script/Script.js
+ * 源仓库：https://github.com/Veylune7/MyClash（基于 AIsouler/MyClash 二次修改）
+ * 脚本链接：https://raw.githubusercontent.com/Veylune7/MyClash/main/Script/Script.js
  * 友情推荐，非常好用、省电且内存占用低的代理软件：https://github.com/appshubcc/Bettbox
  */
 
@@ -87,7 +87,7 @@ const dialerProxyName = '链式中转';
 
 // 定义全局排除节点的正则表达式，用于排除非地区节点
 const excludeFilter =
-  /群|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|电报|无法|说明|提示|访问|支持|教程|关注|更新|作者|加入|超时|收藏|优惠|福利|邀请|好友|失联|选择|剩余|公益|发布|DIZTNA|通路|登录|禁止|定时|渠道|牢记|永久|余额|阁下|本站|刷新|导航|建议|重置|以下|过滤|⚠️|@|t\.me\/\+|\bexpire\b|\bhttps?:\/\/|\.com|\btraffic\b/iu;
+  /群|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|电报|无法|说明|使用|提示|访问|支持|教程|关注|更新|作者|加入|超时|收藏|优惠|福利|邀请|好友|失联|选择|剩余|公益|发布|DIZTNA|通路|登录|禁止|定时|渠道|牢记|永久|余额|阁下|本站|刷新|导航|建议|重置|以下|过滤|⚠️|@|t\.me\/\+|\bexpire\b|\bhttps?:\/\/|\.com|\btraffic\b/iu;
 
 // 屏蔽国外QUIC
 const blockForeignQuic = [
@@ -155,12 +155,6 @@ const regionDefinitions = [
     regex: /🇸🇬|新加坡|狮城|(?<![A-Za-z])SGP?(?![A-Za-z])|singapore/i,
     icon: `${iconBaseUrl}Singapore.svg`,
   },
-  {
-    name: '台湾',
-    flag: '🇹🇼',
-    regex: /🇹🇼|台湾|台北|高雄|(?<![A-Za-z])TWN?(?![A-Za-z])|taiwan/i,
-    icon: `${iconBaseUrl}Taiwan.svg`,
-  },
 ];
 
 // 定义倍率策略组
@@ -171,7 +165,7 @@ const rateRegionDefinitions = [
   {
     name: lowRateRegionName,
     regex:
-      /^(?!.*(?:剩|期)).*(?:(?<![\d.])0(\.[0-5]|[*×✕✖⨯⨉x倍]))|(?:[*×✕✖⨯⨉x]0)|^(?!.*(?:客户端|软件)).*下载|低倍|免费|(?<![A-Za-z])free(?![A-Za-z])/i,
+      /^(?!.*(?:剩|期)).*(?:(?<!\d)0(\.[0-5]|[*×✕✖⨯⨉x倍]))|(?:[*×✕✖⨯⨉x]0)|^(?!.*(?:客户端|软件)).*下载|低倍|免费|(?<![A-Za-z])free(?![A-Za-z])/i,
     icon: `${iconBaseUrl}Available.svg`,
   },
   {
@@ -384,7 +378,7 @@ const serviceConfigs = [
         'path-in-bundle': 'geo/geosite/github.mrs',
       },
     },
-    icon: 'https://fastly.jsdelivr.net/gh/wjj-bit-kriz/MyClash@main/Icons/svg/Github.svg',
+    icon: 'https://fastly.jsdelivr.net/gh/Veylune7/MyClash@main/Icons/svg/Github.svg',
     rules: ['RULE-SET,github,GitHub'],
   },
   {
@@ -454,23 +448,6 @@ Compatible_With_Bettbox.policyGroupOptions = serviceConfigs.map((svc) => svc.nam
 // ---节点过滤、重命名及验证---
 
 /**
- * 零宽/不可见字符：部分机场会在节点名中逐字符插入这类字符（如 H\u200BK），会打断地区、倍率等正则匹配。
- *
- * 刻意排除三类「有语义」的字符，避免误伤：
- * - U+200C / U+200D（ZWNJ / ZWJ）：参与连字与 emoji 组合，删掉会改变字形；
- * - U+FE00–U+FE0F 及 U+E0100–U+E01EF（变体选择符）：控制 emoji 呈现方式。
- * 其余零宽/不可见字符不含任何语义，只用于干扰匹配，可安全忽略。
- */
-const invisibleCharsRegex = /[\u00AD\u180E\u200B\u200E\u200F\u202A-\u202E\u2060-\u206F\uFEFF\u115F\u1160\u3164\uFFA0]/g;
-
-/**
- * 取节点名「可用于匹配」的形式：剥离零宽/不可见字符
- */
-function toMatchableName(name) {
-  return typeof name === 'string' ? name.replace(invisibleCharsRegex, '') : name;
-}
-
-/**
  * 节点匹配缓存，避免重复执行正则
  */
 const regionMatchCache = new Map();
@@ -479,8 +456,7 @@ function getMatchedRegions(proxyName) {
     return regionMatchCache.get(proxyName);
   }
 
-  const matchableName = toMatchableName(proxyName);
-  const regions = allRegionDefinitions.filter((region) => region.regex.test(matchableName));
+  const regions = allRegionDefinitions.filter((region) => region.regex.test(proxyName));
   regionMatchCache.set(proxyName, regions);
 
   return regions;
@@ -566,15 +542,13 @@ function filterAndNormalizeProxies(config) {
     const type = String(proxy.type ?? '').toLowerCase();
     if (type === 'direct' || type === 'reject' || type === 'rematch') return false;
 
-    const matchableName = toMatchableName(proxy.name);
-
-    if (lowRateRegex?.test(matchableName) || highRateRegex?.test(matchableName)) return false;
+    if (lowRateRegex?.test(proxy.name) || highRateRegex?.test(proxy.name)) return false;
 
     if (!filterNonRegionProxiesEnabled) return true;
 
     const isRegionProxy = getMatchedRegions(proxy.name).some((region) => regionDefinitions.includes(region));
 
-    return isRegionProxy || !excludeFilter.test(matchableName);
+    return isRegionProxy || !excludeFilter.test(proxy.name);
   });
 
   const renameMap = new Map();
@@ -884,6 +858,95 @@ function buildFunctionalGroups(filteredProxies, generatedRegionGroups, customize
 
 // ---dns和hosts相关处理---
 
+// 常见的公共 DNS，用于过滤订阅中的公共 DNS
+const commonDnsList = [
+  // IPv4（国内）
+  '223.5.5.5',
+  '223.6.6.6',
+  '119.29.29.29',
+  '1.12.12.12',
+  '120.53.53.53',
+  '114.114.114.114',
+  '180.76.76.76',
+  '1.2.4.8',
+  '116.116.116.116',
+  '101.226.4.6',
+  '123.125.81.6',
+  '180.184.1.1',
+  '180.184.2.2',
+
+  // IPv6（国内）
+  '2400:3200::1',
+  '2400:3200:baba::1',
+  '2402:4e00::',
+  '2400:da00::6666',
+
+  // IPv4（国外）
+  '1.1.1.1',
+  '1.0.0.1',
+  '8.8.8.8',
+  '8.8.4.4',
+  '9.9.9.9',
+  '149.112.112.112',
+  '208.67.222.222',
+  '208.67.220.220',
+  '94.140.14.14',
+  '94.140.15.15',
+  '76.76.2.0',
+  '76.76.10.0',
+  '185.228.168.9',
+  '185.228.169.9',
+  '77.88.8.8',
+  '77.88.8.1',
+  '156.154.70.1',
+  '156.154.71.1',
+
+  // IPv6（国外）
+  '2606:4700:4700::1111',
+  '2606:4700:4700::1001',
+  '2001:4860:4860::8888',
+  '2001:4860:4860::8844',
+  '2620:fe::fe',
+  '2620:fe::9',
+  '2620:119:35::35',
+  '2620:119:53::53',
+  '2a10:50c0::bad1:ff',
+  '2a10:50c0::bad2:ff',
+  '2a10:50c0::ad1:ff',
+  '2a10:50c0::ad2:ff',
+  '2a0d:2a00:1::2',
+  '2a0d:2a00:2::2',
+  '2a02:6b8::feed:0ff',
+  '2a02:6b8:0:1::feed:0ff',
+  '2610:a1:1018::1',
+  '2610:a1:1019::1',
+
+  // 关键词（国内）
+  'alidns',
+  'doh.pub',
+  'dot.pub',
+  'dns.pub',
+  'dnspod',
+  'dns.baidu',
+
+  // 关键词（国外）
+  'dns.google',
+  'dns.cloudflare',
+  'dns.apple',
+  'cloudflare-dns',
+  'quad9',
+  'opendns',
+  'nextdns',
+  'adguard',
+  'one.one.one.one',
+];
+
+// 预编译公共 DNS 正则
+const commonDnsRegex = new RegExp(
+  commonDnsList.map((dns) => dns.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'),
+  'i',
+);
+
 // 国内外 DNS 定义
 const chinaDNS = ['223.5.5.5#DIRECT', '119.29.29.29#DIRECT'];
 const foreignDNS = ['https://cloudflare-dns.com/dns-query#默认代理', 'https://dns.google/dns-query#默认代理'];
@@ -1063,7 +1126,7 @@ function simplifyDomainPolicy(policy) {
 }
 
 /**
- * 构建 DNS 与 hosts：保留节点域名 policy/fake-ip-filter，并按 hosts 改写节点 server
+ * 构建 DNS 与 hosts：保留私有 DNS、节点域名 policy/fake-ip-filter，并按 hosts 改写节点 server
  * hosts改写条件（满足任意一个条件即可）：
  * 1. proxy-server-nameserver 有且仅有一个 DNS 并且该 DNS 包含非空的 listen 值
  * 2. proxy-server-nameserver 有且仅有一个 DNS 并且该 DNS 包含 127.0.0.1 并且 listen 包含 0.0.0.0
@@ -1091,6 +1154,23 @@ function buildDnsAndHostsConfig(config, filteredProxies) {
       .filter((server) => !isIpAddress(server)),
   );
 
+  const privateProxyServerNameservers = shouldRewriteByHosts ? [] : proxyServerNameservers;
+
+  const isCommonDns = (dns) => {
+    const value = String(dns).trim().toLowerCase();
+    if (value === 'system' || value === 'system://') return true;
+
+    return commonDnsRegex.test(value);
+  };
+
+  const privateDNS = [
+    ...new Set(
+      [...(originalDnsConfig['nameserver'] || []), ...privateProxyServerNameservers]
+        .map(stripDnsSuffix)
+        .filter((dns) => dns.length > 0 && !isCommonDns(dns)),
+    ),
+  ];
+
   const matchedProxyPolicy = {};
   for (const [domain, dns] of Object.entries({
     ...originalDnsConfig['nameserver-policy'],
@@ -1104,16 +1184,12 @@ function buildDnsAndHostsConfig(config, filteredProxies) {
     matchedProxyPolicy[domain] = stripedDns;
   }
 
-  // 多机场场景：私有 DNS 必须按机场节点域名隔离，不能把某个机场的 DNS 全局套用到其他机场
-  // 注意：dns01 是海外机器，不用；只用 dns02、dns03（国内）
-  const shanhaiDNS = ['https://dns02.shanhai.you:16666/dns-query#DIRECT', 'https://dns03.shanhai.you:16666/dns-query#DIRECT'];
-  const shanhaiDomainSuffixes = ['.dw.sh-cloudflare.sbs'];
-  const shanhaiExactDomains = new Set(['cf.cdn.sh-cloudflare.sbs']);
-  for (const domain of proxyDomains) {
-    if (shanhaiExactDomains.has(domain) || shanhaiDomainSuffixes.some((suffix) => domain.endsWith(suffix))) {
-      matchedProxyPolicy[domain] = shanhaiDNS;
+  if (privateDNS.length > 0 && Object.keys(matchedProxyPolicy).length === 0) {
+    for (const domain of proxyDomains) {
+      matchedProxyPolicy[domain] = privateDNS;
     }
   }
+
   const matchedPolicyDomains = Object.keys(matchedProxyPolicy);
   const proxyServerPolicy =
     proxyDomains.size === matchedPolicyDomains.length &&
@@ -1189,11 +1265,7 @@ function main(config) {
   const generatedRegionGroups = ruleOptionsEnable.极简模式 ? [] : buildRegionGroups(filteredProxies, customProxies);
 
   const { globalGroup, functionalGroups, functionalRules, finalRuleProviders, chainGroup, directGroup } =
-    buildFunctionalGroups(
-    filteredProxies,
-    generatedRegionGroups,
-    { customProxyNames, customGroup },
-  );
+    buildFunctionalGroups(filteredProxies, generatedRegionGroups, { customProxyNames, customGroup });
 
   const { dns, hosts, proxies: mappedProxies } = buildDnsAndHostsConfig(config, filteredProxies);
 
