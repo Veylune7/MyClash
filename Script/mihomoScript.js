@@ -179,6 +179,12 @@ const regionDefinitions = [
     regex: /🇹🇼|台湾|台北|高雄|(?<![A-Za-z])TWN?(?![A-Za-z])|taiwan/i,
     icon: `${iconBaseUrl}Taiwan.svg`,
   },
+  {
+    name: '韩国',
+    flag: '🇰🇷',
+    regex: /🇰🇷|韩国|首尔|釜山|仁川|(?<![A-Za-z])(?:KR|KOR)(?![A-Za-z])|korea|seoul/i,
+    icon: `${iconBaseUrl}Global.svg`,
+  },
 ];
 
 // 定义倍率策略组
