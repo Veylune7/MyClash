@@ -63,6 +63,9 @@ const ruleOptionsEnable = {
 
 // 定义前置规则
 const prefixRules = [
+  // 规则集下载域名，避免出现鸡蛋问题
+  'DOMAIN,cdn.jsdmirror.com,直连',
+
   // 私有网络直连
   'RULE-SET,private,直连',
 
@@ -460,7 +463,7 @@ const serviceConfigs = [
         'path-in-bundle': 'geo/geosite/github.mrs',
       },
     },
-    icon: 'https://fastly.jsdelivr.net/gh/Veylune7/MyClash@main/Icons/svg/Github.svg',
+    icon: `${iconBaseUrl}GitHub.svg`,
     rules: ['RULE-SET,github,GitHub'],
   },
   {
