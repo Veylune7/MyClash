@@ -555,7 +555,7 @@ proxy-groups:
   - name: 'GitHub'
     default-selected: '美国'
     <<: [*group_common_select, *proxies_default]
-    icon: 'https://fastly.jsdelivr.net/gh/Veylune7/MyClash@main/Icons/svg/Github.svg'
+    icon: 'https://cdn.jsdmirror.com/gh/AIsouler/MyClash@main/Icons/svg/GitHub.svg'
 
   - name: 'Microsoft'
     <<: [*group_common_select, *proxies_direct]
@@ -716,6 +716,9 @@ proxy-groups:
 # --- 路由规则 (Rules) ---
 
 rules:
+  # 规则集下载域名，避免出现鸡蛋问题
+  - DOMAIN,cdn.jsdmirror.com,直连
+
   # 私有网络直连
   - RULE-SET,private,直连
 
