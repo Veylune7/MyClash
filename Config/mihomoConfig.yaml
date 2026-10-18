@@ -553,8 +553,8 @@ proxy-groups:
     icon: 'https://cdn.jsdmirror.com/gh/AIsouler/MyClash@main/Icons/svg/OpenAI.svg'
 
   - name: 'GitHub'
-    <<: [*group_common_select, *proxies_default]
     default-selected: '美国'
+    <<: [*group_common_select, *proxies_default]
     icon: 'https://fastly.jsdelivr.net/gh/Veylune7/MyClash@main/Icons/svg/Github.svg'
 
   - name: 'Microsoft'
