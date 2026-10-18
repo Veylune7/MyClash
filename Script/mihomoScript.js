@@ -27,7 +27,7 @@ const ruleOptionsEnable = {
   YouTube: true, // YouTube视频平台
   Google: true, // Google服务
   AI: true, // 国外AI服务
-  GitHub: true, // GitHub服务
+  GitHub: true, // GitHub代码托管平台
   Microsoft: true, // Microsoft服务
   Apple: false, // Apple服务
   Telegram: true, // Telegram通讯软件
