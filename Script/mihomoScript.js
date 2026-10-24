@@ -1410,6 +1410,20 @@ const chinaDNS = ['223.5.5.5#DIRECT', '119.29.29.29#DIRECT'];
 const foreignDNS = ['https://cloudflare-dns.com/dns-query#默认代理', 'https://dns.google/dns-query#默认代理'];
 const defaultDNS = ['114.114.114.114#DIRECT', 'tls://223.5.5.5#DIRECT', 'https://1.12.12.12/dns-query#DIRECT'];
 const proxyServerDNS = ['114.114.114.114#DIRECT', 'tls://223.5.5.5#DIRECT', 'https://doh.pub/dns-query#DIRECT'];
+// Mihomo 的 proxy-server-nameserver 是全局字段；山海通过 proxy-server-nameserver-policy 按节点域名单独覆盖。
+// 使用 DIRECT 避免解析私有 DoH 时回到代理链，防止 DNS 循环。
+const shanhaiDNS = [
+  'https://dns01.shanhai.you:16666/dns-query#DIRECT',
+  'https://dns02.shanhai.you:16666/dns-query#DIRECT',
+  'https://dns03.shanhai.you:16666/dns-query#DIRECT',
+];
+const essentialFakeIpFilter = [
+  '*.lan', 'localhost', '+.localhost',
+  'time.*.com', 'time.*.gov', 'time.*.edu.cn', 'time.*.apple.com', 'time-ios.apple.com',
+  'ntp.*.com', 'ntp1.*.com', 'ntp2.*.com', 'ntp3.*.com', 'ntp4.*.com', 'ntp5.*.com', 'ntp6.*.com', 'ntp7.*.com',
+  '+.pool.ntp.org', 'stun.*', 'stun.*.*',
+  '+.msftconnecttest.com', '+.msftncsi.com', 'connectivitycheck.android.com', 'connectivitycheck.gstatic.com', 'captive.apple.com',
+];
 
 /**
  * hosts 匹配优先级：精确 > +. > . > *（同级按出现顺序）
@@ -1651,9 +1665,8 @@ function buildDnsAndHostsConfig(config, filteredProxies) {
   }
 
 
-  // 山海机场私有 DNS：仅用于山海节点域名（sh-cloudflare.sbs），不影响其他机场
-  // 注意：dns01 是海外机器，不用；只用 dns02、dns03（国内）
-  const shanhaiDNS = ['https://dns02.shanhai.you:16666/dns-query', 'https://dns03.shanhai.you:16666/dns-query'];
+  // 山海机场私有 DNS：仅用于山海节点域名（sh-cloudflare.sbs），不影响其他机场。
+  // 这是按节点域名匹配，不是按 proxy-provider 匹配；Mihomo 当前没有 per-provider DNS 字段。
   for (const domain of proxyDomains) {
     if (domain === 'sh-cloudflare.sbs' || domain.endsWith('.sh-cloudflare.sbs')) {
       matchedProxyPolicy[domain] = shanhaiDNS;
@@ -1686,6 +1699,7 @@ function buildDnsAndHostsConfig(config, filteredProxies) {
       'rule-set:fakeip_filter',
       'rule-set:geolocation-cn',
       ...(minimalModeEnabled ? [] : ruleOptionsEnable['FCM'] ? ['rule-set:googlefcm'] : []),
+      ...essentialFakeIpFilter,
       ...proxyFakeIpFilter,
     ],
     'default-nameserver': defaultDNS,

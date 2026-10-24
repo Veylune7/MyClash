@@ -86,8 +86,10 @@ dns:
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/15
   fake-ip-range6: 2001:2::1/48
-  fake-ip-filter: ['rule-set:private', 'rule-set:fakeip_filter', 'rule-set:geolocation-cn']
+  # 不为局域网、localhost、时间同步和系统联网检测域名分配 fake-ip
+  fake-ip-filter: ['rule-set:private', 'rule-set:fakeip_filter', 'rule-set:geolocation-cn', '*.lan', 'localhost', '+.localhost', 'time.*.com', 'time.*.gov', 'time.*.edu.cn', 'time.*.apple.com', 'time-ios.apple.com', 'ntp.*.com', 'ntp1.*.com', 'ntp2.*.com', 'ntp3.*.com', 'ntp4.*.com', 'ntp5.*.com', 'ntp6.*.com', 'ntp7.*.com', '+.pool.ntp.org', 'stun.*', 'stun.*.*', '+.msftconnecttest.com', '+.msftncsi.com', 'connectivitycheck.android.com', 'connectivitycheck.gstatic.com', 'captive.apple.com']
   default-nameserver: *defaultDNS
+  # Mihomo 此字段是全局配置；覆写脚本通过 proxy-server-nameserver-policy 按节点域名覆盖山海节点
   proxy-server-nameserver: *proxyServerDNS
   nameserver: *foreignDNS
   nameserver-policy:
