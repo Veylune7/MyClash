@@ -595,6 +595,11 @@ proxy-groups:
     <<: [*group_common_select, *proxies_default]
     icon: 'https://cdn.jsdmirror.com/gh/AIsouler/MyClash@main/Icons/svg/Netflix.svg'
 
+  - name: '月饼Emby'
+    <<: [*group_common_select, *proxies_direct]
+    default-selected: '新加坡'
+    icon: 'https://cdn.jsdmirror.com/gh/AIsouler/MyClash@main/Icons/svg/Emby.svg'
+
   - name: 'Emby'
     <<: [*group_common_select, *proxies_direct]
     icon: 'https://cdn.jsdmirror.com/gh/AIsouler/MyClash@main/Icons/svg/Emby.svg'
@@ -765,6 +770,7 @@ rules:
   - RULE-SET,line,Line
   - RULE-SET,netflix,Netflix
   - RULE-SET,netflix_ip,Netflix,no-resolve
+  - DOMAIN-SUFFIX,emby.my,月饼Emby
   - RULE-SET,emby,Emby
   - RULE-SET,emos,Emby
   - DOMAIN-SUFFIX,mb3admin.com,Emby
