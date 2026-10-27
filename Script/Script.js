@@ -25,6 +25,7 @@ const ruleOptionsEnable = {
   Google: true, // Google服务
   AI: true, // 国外AI服务
   GitHub: true, // GitHub服务
+  月饼Emby: true, // 月饼Emby（emby.my，纯IPv4专用）
   Telegram: true, // Telegram通讯软件
   Steam: true, // Steam游戏平台
   AdBlock: true, // 广告拦截
@@ -396,6 +397,14 @@ const serviceConfigs = [
     },
     icon: `${iconBaseUrl}GitHub.svg`,
     rules: ['RULE-SET,github,GitHub'],
+  },
+  {
+    name: '月饼Emby',
+    baseOption: selectBaseOption,
+    direct: true,
+    defaultSelected: '新加坡',
+    icon: `${iconBaseUrl}Emby.svg`,
+    rules: ['DOMAIN-SUFFIX,emby.my,月饼Emby'],
   },
   {
     name: 'Telegram',
