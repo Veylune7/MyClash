@@ -37,6 +37,7 @@ const ruleOptionsEnable = {
   Meta: true, // Meta服务
   Line: true, // Line通讯软件
   Netflix: false, // Netflix视频平台
+  月饼Emby: true, // 月饼Emby（emby.my，纯IPv4专用）
   Emby: true, // Emby媒体服务
   PikPak: true, // PikPak网盘服务
   Spotify: false, // Spotify音乐服务
@@ -644,6 +645,14 @@ const serviceConfigs = [
     },
     icon: `${iconBaseUrl}Netflix.svg`,
     rules: ['RULE-SET,netflix,Netflix', 'RULE-SET,netflix_ip,Netflix,no-resolve'],
+  },
+  {
+    name: '月饼Emby',
+    baseOption: selectBaseOption,
+    direct: true,
+    defaultSelected: '新加坡',
+    icon: `${iconBaseUrl}Emby.svg`,
+    rules: ['DOMAIN-SUFFIX,emby.my,月饼Emby'],
   },
   {
     name: 'Emby',
