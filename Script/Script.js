@@ -1084,6 +1084,7 @@ const proxyServerDNS = ['114.114.114.114#DIRECT', 'tls://223.5.5.5#DIRECT', 'htt
 // Mihomo 的 proxy-server-nameserver 是全局字段；山海通过 proxy-server-nameserver-policy 按节点域名单独覆盖。
 // 使用 DIRECT 避免解析私有 DoH 时回到代理链，防止 DNS 循环。
 const shanhaiDNS = [
+  'https://dns01.shanhai.you:16666/dns-query#DIRECT',
   'https://dns02.shanhai.you:16666/dns-query#DIRECT',
   'https://dns03.shanhai.you:16666/dns-query#DIRECT',
 ];
