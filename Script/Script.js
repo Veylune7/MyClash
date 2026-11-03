@@ -846,7 +846,13 @@ function buildFunctionalGroups(filteredProxies, generatedRegionGroups, customize
     const globalGroup = {
       ...selectBaseOption,
       name: 'GLOBAL',
-      proxies: ['默认代理', ...customGroupNames, ...(autoSelectGroupEnabled ? [autoSelectGroup.name] : []), ...(chainGroup ? [chainGroup.name] : []), '直连'],
+      proxies: [
+        '默认代理',
+        ...customGroupNames,
+        ...(chainGroup ? [chainGroup.name] : []),
+        ...(autoSelectGroupEnabled ? [autoSelectGroup.name] : []),
+        '直连',
+      ],
       icon: `${iconBaseUrl}Global.svg`,
     };
 
@@ -940,7 +946,15 @@ function buildFunctionalGroups(filteredProxies, generatedRegionGroups, customize
     icon: `${iconBaseUrl}Global.svg`,
   };
 
-  return { globalGroup, functionalGroups, functionalRules, functionalIpRules, finalRuleProviders, chainGroup, directGroup };
+  return {
+    globalGroup,
+    functionalGroups,
+    functionalRules,
+    functionalIpRules,
+    finalRuleProviders,
+    chainGroup,
+    directGroup,
+  };
 }
 
 // ---dns和hosts相关处理---
@@ -1477,8 +1491,15 @@ function main(config) {
 
   const generatedRegionGroups = ruleOptionsEnable.极简模式 ? [] : buildRegionGroups(filteredProxies, customProxies);
 
-  const { globalGroup, functionalGroups, functionalRules, functionalIpRules, finalRuleProviders, chainGroup, directGroup } =
-    buildFunctionalGroups(filteredProxies, generatedRegionGroups, { customProxyNames, customGroup });
+  const {
+    globalGroup,
+    functionalGroups,
+    functionalRules,
+    functionalIpRules,
+    finalRuleProviders,
+    chainGroup,
+    directGroup,
+  } = buildFunctionalGroups(filteredProxies, generatedRegionGroups, { customProxyNames, customGroup });
 
   const { dns, hosts, proxies: mappedProxies } = buildDnsAndHostsConfig(config, filteredProxies);
 
