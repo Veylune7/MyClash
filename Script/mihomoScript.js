@@ -60,6 +60,7 @@ const ruleOptionsEnable = {
   屏蔽代理QUIC流量: false, // 是否屏蔽非国内目标的 QUIC 流量
   代理IPV4优先: false, // 是否将订阅节点统一为 IPv4 优先（与“代理IPV6优先”同时开启时不生效）
   代理IPV6优先: true, // 是否将订阅节点统一为 IPv6 优先（与“代理IPV4优先”同时开启时不生效）
+  代理仅IPV6: false, // 是否将订阅节点统一为仅 IPv6（开启时压过“代理IPV4优先/代理IPV6优先”；无 IPv6 入口的节点将无法连接）
   链式代理: true, // 是否启用链式代理（自定义节点作为落地节点，经“链式中转”策略组中转）
 };
 
@@ -909,10 +910,13 @@ function fixDialerProxy(proxy, renameMap, normalizedProxyNames) {
 }
 
 /**
- * 读取代理 IP 版本偏好：仅其中一个开关开启时返回对应偏好，
+ * 读取代理 IP 版本偏好：「代理仅IPV6」开启时返回 'ipv6'（最高优先级）；否则仅其中一个开关开启时返回对应偏好，
  * 同时开启或同时关闭时返回 null（不应用任何偏好，节点保持原样）
  */
 function getIpVersionPreference() {
+  const ipv6OnlyEnabled = ruleOptionsEnable.代理仅IPV6;
+  if (ipv6OnlyEnabled) return 'ipv6';
+
   const ipv4PreferEnabled = ruleOptionsEnable.代理IPV4优先;
   const ipv6PreferEnabled = ruleOptionsEnable.代理IPV6优先;
 
