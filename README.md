@@ -1,6 +1,6 @@
 # MyClash
 
-Mihomo（Clash Meta）分流配置，开箱即用。
+Mihomo（Clash Meta）分流配置，开箱即用。同时提供 **普通版（mihomo 内核）** 和 **FlClash 版（Concord 内核）** 两套文件，按客户端内核二选一，不要混用。
 
 > 基于 [AIsouler/MyClash](https://github.com/AIsouler/MyClash) 二次修改，
 > 核心改动：**AI 分组的规则集替换为 [viewer12/OverseasAI.list](https://github.com/viewer12/OverseasAI.list)**，
@@ -8,7 +8,9 @@ Mihomo（Clash Meta）分流配置，开箱即用。
 
 ## 🚀 快速开始
 
-把下面对应链接填进客户端的「订阅 / 配置 URL」即可（以 FlClash 为例：配置 → 新建 → URL 导入）。
+把下面对应链接填进客户端的「订阅 / 配置 URL」即可。
+
+### 普通版（mihomo 内核：Bettbox、Clash Verge、旧版 FlClash 等）
 
 **全量版**（完整分组：AI / 流媒体 / 游戏 / 电报 / 苹果 / 微软 / 谷歌等）
 
@@ -20,6 +22,22 @@ https://raw.githubusercontent.com/Veylune7/MyClash/main/Config/mihomoConfig.yaml
 
 ```
 https://raw.githubusercontent.com/Veylune7/MyClash/main/Config/mihomoConfigLite.yaml
+```
+
+### FlClash 版（Concord 内核：新版 FlClash）
+
+先在 FlClash「设置 → 关于 / 核心状态」确认内核：显示 `concord` 用这一套，显示 `mihomo` 用上面的普通版。Concord 版删掉了 Concord 不支持的参数（`path-in-bundle`、`bind-address`、`external-controller`、`external-ui`、`tun.auto-redirect`），其余分组、规则、DNS 与普通版一致。详细说明见 [FlClash（Concord 内核）使用说明](./Docs/FlClashConcord.md)。
+
+**全量版**
+
+```
+https://raw.githubusercontent.com/Veylune7/MyClash/main/Config/concordConfig.yaml
+```
+
+**精简版**
+
+```
+https://raw.githubusercontent.com/Veylune7/MyClash/main/Config/concordConfigLite.yaml
 ```
 
 > ⚠️ 导入后**必须**在配置里填入自己的机场订阅链接：
@@ -38,27 +56,40 @@ AI 分组默认走「美国」节点（可在策略组里手动切换）。
 
 ## 📱 在 FlClash 中使用
 
-1. 侧边栏 → 配置 → 右上角 ＋ → **URL**，粘贴上面的订阅链接
-2. 等待下载完成，点击设为当前配置
-3. 点右上角 ✏️ 编辑配置，找到 `proxy-providers.provider1.url`，填入机场订阅链接后保存
-4. 回到首页 → 代理 → 选择各分组节点（AI 分组默认美国，可按需切换）
+1. 先确认内核（设置 → 关于 / 核心状态）：`concord` 用 FlClash 版链接，`mihomo` 用普通版链接
+2. 侧边栏 → 配置 → 右上角 ＋ → **URL**，粘贴对应链接
+3. 等待下载完成，点击设为当前配置
+4. 点右上角 ✏️ 编辑配置，找到 `proxy-providers.provider1.url`，填入机场订阅链接后保存
+5. 回到首页 → 代理 → 选择各分组节点（AI 分组默认美国，可按需切换）
 
-其他 Mihomo 内核客户端（Clash Verge、NekoBox 等）同理：导入 URL → 填订阅 → 选节点。
+其他 Mihomo 内核客户端（Clash Verge、NekoBox 等）同理：导入普通版 URL → 填订阅 → 选节点。
 
 ## 📜 覆写脚本（Bettbox 可视化开关）
 
 直接用上面的 YAML 订阅即可；如果你用 **Bettbox**，还可以挂上覆写脚本，在 App 里一键开关各个服务分组：
 
-**精简版脚本**
+**普通版（mihomo）精简版脚本**
 
 ```
 https://raw.githubusercontent.com/Veylune7/MyClash/main/Script/Script.js
 ```
 
-**完整版脚本**
+**普通版（mihomo）完整版脚本**
 
 ```
 https://raw.githubusercontent.com/Veylune7/MyClash/main/Script/mihomoScript.js
+```
+
+**FlClash 版（Concord）完整版脚本**
+
+```
+https://raw.githubusercontent.com/Veylune7/MyClash/main/Script/concordScript.js
+```
+
+**FlClash 版（Concord）精简版脚本**
+
+```
+https://raw.githubusercontent.com/Veylune7/MyClash/main/Script/concordScriptLite.js
 ```
 
 用法（Bettbox）：订阅卡片 → 覆写 → 脚本，填入上面对应链接。之后在覆写设置里会出现各服务的可视化开关（AI、GitHub、Google、Telegram 等），关掉某个开关后该分组消失、对应流量回落到默认代理。
@@ -70,8 +101,9 @@ https://raw.githubusercontent.com/Veylune7/MyClash/main/Script/mihomoScript.js
 | | 原版 AIsouler/MyClash | 本仓库 |
 |---|---|---|
 | AI 规则集 | `category-ai-!cn.mrs`（geosite 二进制） | `OverseasAI.list`（classical 文本，规则更多更全） |
+| 内核版本 | mihomo + Concord 两套 | 同样两套：普通版（mihomo）+ FlClash 版（Concord），定制一致 |
 | 图标 | 原仓库 CDN | 沿用原仓库 CDN（稳定，暂不迁移） |
-| 其余分组/规则 | — | 与原版一致 |
+| 其余分组/规则 | — | 与原版一致，另有 GitHub / 韩国 / 月饼Emby 分组与链式代理（默认关） |
 
 ## 🙏 致谢与授权
 
