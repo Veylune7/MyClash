@@ -51,11 +51,14 @@ const ruleOptionsEnable = {
 const prefixRules = [
   // 私有网络直连
   'RULE-SET,private,直连',
+  'RULE-SET,private_ip,直连,no-resolve',
 
   // 国内直连
   'RULE-SET,geolocation-cn,直连',
   'RULE-SET,games_cn,直连', // 已包含 steam 下载域名
+  'RULE-SET,games_download_cn,直连',
   'RULE-SET,synology,直连',
+  'RULE-SET,nvidia_cn,直连',
   'RULE-SET,apple_cn,直连',
   'RULE-SET,microsoft_cn,直连',
   'DOMAIN,fsend.cn,直连',
@@ -239,10 +242,20 @@ const baseRuleProviders = {
     url: `${ruleSetBaseUrl}geosite/category-games@cn.mrs`,
     path: './ruleset/category-games@cn.mrs',
   },
+  games_download_cn: {
+    ...ruleProviderCommonDomain,
+    url: `${ruleSetBaseUrl}geosite/category-game-platforms-download@cn.mrs`,
+    path: './ruleset/category-game-platforms-download@cn.mrs',
+  },
   synology: {
     ...ruleProviderCommonDomain,
     url: `${ruleSetBaseUrl}geosite/synology.mrs`,
     path: './ruleset/synology.mrs',
+  },
+  nvidia_cn: {
+    ...ruleProviderCommonDomain,
+    url: `${ruleSetBaseUrl}geosite/nvidia@cn.mrs`,
+    path: './ruleset/nvidia@cn.mrs',
   },
   apple_cn: {
     ...ruleProviderCommonDomain,
@@ -1579,6 +1592,32 @@ function main(config) {
 
   newConfig['dns'] = dns;
   newConfig['hosts'] = hosts;
+
+  // 按应用包名分流（Android/iOS）：App 流量优先按包名走对应分组，不受域名重叠影响；
+  // 仅当对应分组的开关开启时生效，开关关闭则该 App 按域名规则正常回落
+  const processNameMap = [
+    ['com.zhiliaoapp.musically', 'TikTok'], // TikTok 国际版
+    ['com.ss.android.ugc.trill', 'TikTok'], // TikTok 国内渠道包
+    ['com.anthropic.claude', 'AI'],          // Claude
+    ['com.openai.chatgpt', 'AI'],            // ChatGPT
+  ];
+  const processRules = processNameMap
+    .filter((entry) => ruleOptionsEnable[entry[1]])
+    .map((entry) => `PROCESS-NAME,${entry[0]},${entry[1]}`);
+  newConfig['rules'] = [
+    ...priorityRules,
+    ...prefixRules,
+    ...(ruleOptionsEnable.屏蔽代理QUIC流量 ? blockForeignQuic : []),
+    ...processRules,
+    ...functionalRules,
+    'RULE-SET,geolocation-!cn,默认代理',
+    'RULE-SET,cn_ip,直连',
+    'RULE-SET,private_ip,直连',
+    ...functionalIpRules,
+    `MATCH,${ruleOptionsEnable.极简国内外分流模式 ? '默认代理' : '漏网之鱼'}`,
+    'NETWORK,UDP,REJECT',
+  ];
+
   newConfig['mixed-port'] = 7890;
   newConfig['allow-lan'] = true;
   newConfig['ipv6'] = true;
@@ -1605,7 +1644,6 @@ function main(config) {
 
   newConfig['tun'] = {
     enable: true,
-    stack: 'mips',
     'auto-route': true,
     'strict-route': true,
     'auto-detect-interface': true,
@@ -1622,30 +1660,6 @@ function main(config) {
     ...generatedRegionGroups,
   ];
   newConfig['rule-providers'] = finalRuleProviders;
-
-  // 按应用包名分流（Android/iOS）：App 流量优先按包名走对应分组，不受域名重叠影响；
-  // 仅当对应分组的开关开启时生效，开关关闭则该 App 按域名规则正常回落
-  const processNameMap = [
-    ['com.zhiliaoapp.musically', 'TikTok'], // TikTok 国际版
-    ['com.ss.android.ugc.trill', 'TikTok'], // TikTok 国内渠道包
-    ['com.anthropic.claude', 'AI'],          // Claude
-    ['com.openai.chatgpt', 'AI'],            // ChatGPT
-  ];
-  const processRules = processNameMap
-    .filter((entry) => ruleOptionsEnable[entry[1]])
-    .map((entry) => `PROCESS-NAME,${entry[0]},${entry[1]}`);
-  newConfig['rules'] = [
-    ...priorityRules,
-    ...prefixRules,
-    ...(ruleOptionsEnable.屏蔽代理QUIC流量 ? blockForeignQuic : []),
-    ...processRules,
-    ...functionalRules,
-    'RULE-SET,geolocation-!cn,默认代理',
-    'RULE-SET,cn_ip,直连',
-    'RULE-SET,private_ip,直连',
-    ...functionalIpRules,
-    `MATCH,${ruleOptionsEnable.极简国内外分流模式 ? '默认代理' : '漏网之鱼'}`,
-  ];
 
   return newConfig;
 }
