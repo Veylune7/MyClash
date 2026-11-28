@@ -50,8 +50,8 @@ const ruleOptionsEnable = {
 // 定义前置规则
 const prefixRules = [
   // 私有网络直连
-  'RULE-SET,private,直连',
-  'RULE-SET,private_ip,直连,no-resolve',
+  'RULE-SET,private,DIRECT',
+  'RULE-SET,private_ip,DIRECT,no-resolve',
 
   // 国内直连
   'RULE-SET,geolocation-cn,直连',
@@ -952,6 +952,7 @@ const commonDnsList = [
   '1.12.12.12',
   '120.53.53.53',
   '2402:4e00::',
+  '2402:4e00:1::',
   'doh.pub',
   'dot.pub',
   'dns.pub',
@@ -1020,7 +1021,10 @@ const commonDnsList = [
   // Quad101（TWNIC，中国台湾）
   '101.101.101.101',
   '101.102.103.104',
+  '2001:de4::101',
+  '2001:de4::102',
   'quad101',
+  'twnic',
 
   // ==================== 国外 ====================
 
@@ -1046,29 +1050,41 @@ const commonDnsList = [
   '8.8.4.4',
   '2001:4860:4860::8888',
   '2001:4860:4860::8844',
+  '2001:4860:4860::6464',
+  '2001:4860:4860::64',
   'dns.google',
 
-  // Quad9
+  // Quad9（推荐 Secure / Secured / Unsecured / ECS）
   '9.9.9.9',
   '9.9.9.10',
   '9.9.9.11',
-  '149.112.112.112',
+  '149.112.112.9',
   '149.112.112.10',
   '149.112.112.11',
+  '149.112.112.112',
   '2620:fe::fe',
   '2620:fe::9',
   '2620:fe::10',
+  '2620:fe::11',
   'quad9',
 
-  // Cisco OpenDNS（含 FamilyShield）
+  // Cisco OpenDNS（含 FamilyShield/DoH）
   '208.67.222.222',
   '208.67.220.220',
   '208.67.222.123',
   '208.67.220.123',
+  '146.112.41.2',
+  '146.112.41.3',
+  '146.112.41.4',
+  '146.112.41.5',
   '2620:119:35::35',
   '2620:119:53::53',
   '2620:119:35::123',
   '2620:119:53::123',
+  '2620:119:fc::2',
+  '2620:119:fc::3',
+  '2620:119:fc::4',
+  '2620:119:fc::5',
   '2620:0:ccc::2',
   '2620:0:ccd::2',
   'opendns',
@@ -1088,29 +1104,67 @@ const commonDnsList = [
   '2a10:50c0::2:ff',
   'adguard',
 
-  // Control D
+  // Control D（免费解析 0-5 档 + DoH/DoT 引导端点）
   '76.76.2.0',
+  '76.76.2.1',
+  '76.76.2.2',
+  '76.76.2.3',
+  '76.76.2.4',
+  '76.76.2.5',
+  '76.76.2.11',
   '76.76.10.0',
+  '76.76.10.1',
+  '76.76.10.2',
+  '76.76.10.3',
+  '76.76.10.4',
+  '76.76.10.5',
+  '76.76.10.11',
   '76.76.19.19',
   '76.223.122.150',
+  '2606:1a40::',
+  '2606:1a40::1',
+  '2606:1a40::2',
+  '2606:1a40::3',
+  '2606:1a40::4',
+  '2606:1a40::5',
+  '2606:1a40::11',
+  '2606:1a40:1::',
+  '2606:1a40:1::1',
+  '2606:1a40:1::2',
+  '2606:1a40:1::3',
+  '2606:1a40:1::4',
+  '2606:1a40:1::5',
+  '2606:1a40:1::11',
   'controld',
 
-  // CleanBrowsing（含安全/家庭版）
+  // CleanBrowsing（安全/家庭/成人版 IPv6）
   '185.228.168.9',
   '185.228.169.9',
   '185.228.168.10',
   '185.228.169.11',
   '185.228.168.168',
   '185.228.169.168',
+  '2a0d:2a00:1::',
+  '2a0d:2a00:1::1',
   '2a0d:2a00:1::2',
+  '2a0d:2a00:2::',
+  '2a0d:2a00:2::1',
   '2a0d:2a00:2::2',
   'cleanbrowsing',
 
-  // Yandex DNS
+  // Yandex DNS（Basic/Safe/Family）
   '77.88.8.8',
   '77.88.8.1',
+  '77.88.8.88',
+  '77.88.8.2',
+  '77.88.8.7',
+  '77.88.8.3',
   '2a02:6b8::feed:0ff',
   '2a02:6b8:0:1::feed:0ff',
+  '2a02:6b8::feed:bad',
+  '2a02:6b8:0:1::feed:bad',
+  '2a02:6b8::feed:a11',
+  '2a02:6b8:0:1::feed:a11',
   'yandex',
 
   // Neustar UltraDNS
@@ -1121,14 +1175,25 @@ const commonDnsList = [
   '2610:a1:1018::1',
   '2610:a1:1019::1',
 
-  // Mullvad DNS
+  // Mullvad DNS（无过滤/广告/base/extended/family/all，公共服务已于 2026-11 关停，保留历史条目）
   '194.242.2.2',
+  '194.242.2.3',
+  '194.242.2.4',
+  '194.242.2.5',
+  '194.242.2.6',
+  '194.242.2.9',
   '2a07:e340::2',
+  '2a07:e340::3',
+  '2a07:e340::4',
+  '2a07:e340::5',
+  '2a07:e340::6',
+  '2a07:e340::9',
   'mullvad',
 
   // Hurricane Electric
   '74.82.42.42',
   '2001:470:20::2',
+  'ordns.he.net',
 
   // DNS.SB
   '185.222.222.222',
@@ -1151,11 +1216,11 @@ const commonDnsList = [
   '8.20.247.20',
   'comodo',
 
-  // Verisign Public DNS
+  // Neustar UltraDNS（原 Verisign Public DNS，2020-12 转让至 Neustar）
   '64.6.64.6',
   '64.6.65.6',
 
-  // Oracle Dyn
+  // Oracle OCI Recursive DNS（原 Dyn）
   '216.146.35.35',
   '216.146.36.36',
 
@@ -1584,6 +1649,7 @@ function buildDnsAndHostsConfig(config, filteredProxies) {
     }),
     nameserver: foreignDNS,
     'nameserver-policy': {
+      '*': 'system',
       'rule-set:private': 'system',
       'rule-set:douyin': ['180.184.1.1#DIRECT', '180.184.2.2#DIRECT'],
       'rule-set:cn': chinaDNS,
@@ -1661,7 +1727,7 @@ function main(config) {
     ...functionalRules,
     'RULE-SET,geolocation-!cn,默认代理',
     'RULE-SET,cn_ip,直连',
-    'RULE-SET,private_ip,直连',
+    'RULE-SET,private_ip,DIRECT',
     ...functionalIpRules,
     `MATCH,${ruleOptionsEnable.极简国内外分流模式 ? '默认代理' : '漏网之鱼'}`,
     'NETWORK,UDP,REJECT',
@@ -1688,7 +1754,7 @@ function main(config) {
     'write-to-system': false,
     server: 'ntp.aliyun.com',
     port: 123,
-    interval: 60,
+    interval: 360,
   };
 
   newConfig['tun'] = {
